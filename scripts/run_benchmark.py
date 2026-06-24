@@ -38,7 +38,7 @@ def multi_agent_runner(query: str) -> ResearchState:
     return result
 
 def main():
-    query = "Analyze the key differences between GraphRAG, LightRAG, and RAPTOR algorithms in terms of retrieval latency and chunking strategies. Provide specific performance claims from recent papers."
+    query = "Who won the Best Picture award at the 96th Academy Awards in 2024, and who won Best Director? Cite your sources."
     print(f"Running baseline for query: {query}")
     baseline_state, baseline_metrics = run_benchmark("Single-Agent Baseline", query, baseline_runner)
     

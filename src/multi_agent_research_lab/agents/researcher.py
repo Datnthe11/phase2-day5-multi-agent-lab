@@ -16,7 +16,11 @@ class ResearcherAgent(BaseAgent):
         search_client = SearchClient()
         llm_client = LLMClient()
 
-        sources = search_client.search(state.request.query, max_results=state.request.max_sources)
+        # Optimize the search query using LLM instead of passing the full natural language prompt
+        query_prompt = f"Extract 3-5 essential keywords from this request to use in a search engine. Return ONLY the keywords separated by spaces, nothing else.\nRequest: {state.request.query}"
+        search_query = llm_client.complete("You are an expert search query generator.", query_prompt).content.strip().strip('"')
+
+        sources = search_client.search(search_query, max_results=state.request.max_sources)
         state.sources.extend(sources)
 
         source_texts = "\n".join([f"[{i+1}] {s.title}\n{s.snippet}" for i, s in enumerate(sources)])

@@ -41,8 +41,8 @@ def run_benchmark(run_name: str, query: str, runner: Runner) -> tuple[ResearchSt
         except ValueError:
             quality_score = 0.0
             
-        cit_prompt = f"Count the total number of main claims and the number of main claims that have citations in the following text. Return exactly two numbers separated by a comma (e.g. '5, 3').\nText: {state.final_answer}"
-        cit_resp = llm.complete("You are an evaluator. Return only 'total_claims, cited_claims'.", cit_prompt)
+        cit_prompt = f"Analyze the text. Count the total number of factual claims. Then count how many of those claims are explicitly backed by an in-text citation (e.g. '[1]' or '(Author, Year)'). Return EXACTLY two integers separated by a comma (e.g. '5, 0' if 5 claims and 0 citations).\nText: {state.final_answer}"
+        cit_resp = llm.complete("You are a strict evaluator. Return only 'total_claims, cited_claims'.", cit_prompt)
         try:
             parts = cit_resp.content.split(",")
             total_claims = max(1, int(parts[0].strip()))
