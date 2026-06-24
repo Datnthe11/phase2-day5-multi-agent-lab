@@ -38,14 +38,14 @@ def multi_agent_runner(query: str) -> ResearchState:
     return result
 
 def main():
-    query = "Research GraphRAG state-of-the-art"
+    query = "Analyze the key differences between GraphRAG, LightRAG, and RAPTOR algorithms in terms of retrieval latency and chunking strategies. Provide specific performance claims from recent papers."
     print(f"Running baseline for query: {query}")
-    _, baseline_metrics = run_benchmark("Single-Agent Baseline", query, baseline_runner)
+    baseline_state, baseline_metrics = run_benchmark("Single-Agent Baseline", query, baseline_runner)
     
     print(f"Running multi-agent for query: {query}")
-    _, multi_metrics = run_benchmark("Multi-Agent Workflow", query, multi_agent_runner)
+    multi_state, multi_metrics = run_benchmark("Multi-Agent Workflow", query, multi_agent_runner)
     
-    report_content = render_markdown_report([baseline_metrics, multi_metrics])
+    report_content = render_markdown_report([baseline_metrics, multi_metrics], [baseline_state, multi_state])
     
     os.makedirs("reports", exist_ok=True)
     with open("reports/benchmark_report.md", "w", encoding="utf-8") as f:
