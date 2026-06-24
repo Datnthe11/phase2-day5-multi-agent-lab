@@ -15,9 +15,10 @@ from multi_agent_research_lab.observability.logging import configure_logging
 
 app = typer.Typer(help="Multi-Agent Research Lab starter CLI")
 console = Console()
-
+from dotenv import load_dotenv
 
 def _init() -> None:
+    load_dotenv()
     settings = get_settings()
     configure_logging(settings.log_level)
 
